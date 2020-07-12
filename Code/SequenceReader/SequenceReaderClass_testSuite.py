@@ -1,2 +1,0 @@
-import unittest
-from SequenceReaderClass import SequenceReaderClass
