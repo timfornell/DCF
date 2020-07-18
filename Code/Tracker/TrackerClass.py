@@ -1,11 +1,11 @@
 import numpy as np
 import GlobalVariables as glob
-from Track import Track
+from Track.TrackClass import Track
 
 class Tracker():
     def __init__(self):
         self._tracks = np.empty(glob.MAX_NUMBER_OF_TRACKS, dtype=Track)
-    
+
     def get_tracks(self):
         return self._tracks
 
@@ -17,7 +17,7 @@ class Tracker():
 
     def run_translation_tracker(self, current_image):
         """
-        This is the part of the DCF tracker where it looks for the object in the image using the filter that it has from the previous frame. 
+        This is the part of the DCF tracker where it looks for the object in the image using the filter that it has from the previous frame.
         To do this a search window is used that is centered around the last known position of the track and the last known ROI increased by
         X percent (this is a tunable parameter). The image is then preprocessed by applying a window (tunable). Then the filter is correlated
         with the resulting image. If there is a clear enough peak in the resulting correlation the track is moved to this position. After that
