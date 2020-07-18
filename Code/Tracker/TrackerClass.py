@@ -1,6 +1,6 @@
 import numpy as np
 import GlobalVariables as glob
-from Track import Track
+from Track.TrackClass import Track
 
 class Tracker():
     def __init__(self):
