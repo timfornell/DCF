@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc2df714_ffd66ea6",
+        "filename": "Code/SequenceReader/SequenceReaderClass.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1018147
+      },
+      "writtenOn": "2020-07-18T19:10:02Z",
+      "side": 1,
+      "message": "Should update the testfile as well!",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 35,
+        "endChar": 27
+      },
+      "revId": "1af2ce4764daf83c39dd6995ab8dfeb18cf157fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
