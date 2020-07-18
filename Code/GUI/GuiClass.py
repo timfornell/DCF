@@ -1,17 +1,14 @@
-import PySimpleGUI as sg
-
-layout = [[sg.Text("Hello from PySimpleGUI")], [sg.Button("OK")]]
+import cv2
 
 class GUI():
     def __init__(self):
-        self._window = sg.Window("Demo", layout)
+        pass
 
     def get_track_ROIs(self):
         pass
 
-    def update_window(self):
-        event, values = self._window.Read()
-        return event, values
+    def update_window(self, image):
+        cv2.imshow('image', image)
 
     def close_window(self):
-        self._window.Close()
+        pass
