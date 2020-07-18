@@ -1,6 +1,6 @@
 import pytest
 from pathlib import Path
-from SequenceReaderClass import *
+from SequenceReader.SequenceReaderClass import SequenceReaderClass
 
 def test_that_sequence_frames_are_read_correctly():
     sequence_path = Path.joinpath(Path.cwd(), "Code/SequenceReader/file_example_MP4_640_3MG.mp4")
@@ -13,5 +13,5 @@ def test_that_sequence_frames_are_read_correctly():
         assert seq_reader.get_current_image() is not None
         assert seq_reader.image_is_available() == True
 
-    
+
 test_that_sequence_frames_are_read_correctly()
