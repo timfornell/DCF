@@ -1,5 +1,5 @@
 import numpy as np
-import GlobalVariables as glob
+import Defs.GlobalVariables as glob
 from Track.TrackClass import Track
 
 class Tracker():
