@@ -15,4 +15,5 @@ All work should be performed inside the virtual environment.
 
 ## Tests
 
-To run tests enter the virtual environment by runnin *python3 -m pipenv shell* then run *pytest* and it will look for all files with **test\*.py** or **\*test.py**
+* To run tests enter the virtual environment by runnin *python3 -m pipenv shell* then run *pytest* and it will look for all files with **test\*.py** or **\*test.py**
+* To check coverage run *coverage run -m pytest* and *coverage report* to see results
