@@ -8,6 +8,7 @@ class SequenceReaderClass():
         sequence_path = Path(sequence_path)
         if sequence_path.exists():
             self._sequence_is_available = True
+            self._image_is_available = True
             self._video = cv2.VideoCapture(str(sequence_path))
 
     def sequence_is_available(self):
@@ -18,7 +19,7 @@ class SequenceReaderClass():
         if self._video.isOpened():
             self._image_is_available, self._current_image = self._video.read()
             return_image = self._current_image
-        
+
         return return_image
 
     def get_current_image(self):
