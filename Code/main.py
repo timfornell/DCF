@@ -10,7 +10,6 @@ def run_dcf(sequence_path):
     tracker = Tracker()
 
     if sequence_reader.sequence_is_available():
-        # tracker.initialize_tracks(gui.get_track_ROIs())
         paused_video = False
         image_available = sequence_reader.image_is_available()
         while image_available and gui.window_is_open():

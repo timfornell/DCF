@@ -16,8 +16,14 @@ class GUI():
         cv2.namedWindow(self._window_name)
         cv2.setMouseCallback(self._window_name, self.mouse_callback_function)
 
-    def get_track_ROIs(self):
+    def get_rectangles(self):
         return self._rectangles_to_draw
+
+    def update_rectangle_positions(self, new_positions):
+        for obj in new_positions:
+            for rect in self._rectangles_to_draw:
+                if obj.id == rect.id:
+                    rect.update_position(obj._start_point, obj._end_point)
 
     def update_window(self, image):
         """ This function takes an image that it will display and save a copy of. """
