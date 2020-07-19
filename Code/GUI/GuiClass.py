@@ -14,7 +14,8 @@ class GUI():
         self._rectangle_thickness = 2
         self._rectangle_alpha = 0.5
         self._id_counter = 1
-        cv2.namedWindow(self._window_name)
+        cv2.namedWindow(self._window_name, cv2.WINDOW_NORMAL)
+        cv2.moveWindow(self._window_name, 0, 0)
         cv2.setMouseCallback(self._window_name, self.mouse_callback_function)
 
     def get_rectangles(self):
@@ -34,6 +35,7 @@ class GUI():
     def update_window(self, image):
         """ This function takes an image that it will display and save a copy of. """
         self._current_image = image
+        cv2.resizeWindow(self._window_name, 2 * image.shape[1], 2 * image.shape[0])
         cv2.imshow(self._window_name, self._current_image)
 
     def update_rectangles(self):

@@ -35,23 +35,24 @@ class Tracker():
         The first frame a track exists is a bit special since the filter is trained. It is trained be perbutating the
         cropped image X (tunable) amount of times.
         """
-        for track in self._tracks:
-            # Get the image patch from original image
-            track.crop_image_to_track_ROI(current_image)
-            # Preprocess image patch to prepare for DCF tracker
-            track.pre_process_cropped_image()
-
-            if track._is_initialized:
-                # Correlate image with filter
-                track.calculate_correlation()
-                # Find location of maximum correlation and if clear enough, move track ROI
-                track.update_track_position()
-                # Get the image patch from original image for the new location
+        if current_image is not None:
+            for track in self._tracks:
+                # Get the image patch from original image
                 track.crop_image_to_track_ROI(current_image)
                 # Preprocess image patch to prepare for DCF tracker
                 track.pre_process_cropped_image()
-                # Update the filter
-                track.update_filter()
-            else:
-                # Train the filter using x amount of pertubations
-                track.train_initial_filter()
+
+                if track._is_initialized:
+                    # Correlate image with filter
+                    track.calculate_correlation()
+                    # Find location of maximum correlation and if clear enough, move track ROI
+                    track.update_track_position()
+                    # Get the image patch from original image for the new location
+                    track.crop_image_to_track_ROI(current_image)
+                    # Preprocess image patch to prepare for DCF tracker
+                    track.pre_process_cropped_image()
+                    # Update the filter
+                    track.update_filter()
+                else:
+                    # Train the filter using x amount of pertubations
+                    track.train_initial_filter()
