@@ -51,6 +51,8 @@ class GUI():
         """
         for rect in rectangles:
             cv2.rectangle(self._overlay, rect.start_point, rect.end_point, self._rectangle_color, self._rectangle_thickness)
+            cv2.putText(self._overlay, "{}".format(rect.id), rect.start_point, cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+                        (255, 255, 255), 1)
 
         cv2.addWeighted(self._overlay, self._rectangle_alpha, self._output, 1 - self._rectangle_alpha, 0, self._output)
         cv2.imshow(self._window_name, self._output)
