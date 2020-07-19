@@ -1,5 +1,6 @@
 import cv2
 from Track.TrackClass import Track
+import Defs.GlobalVariables as glob
 
 class GUI():
     def __init__(self):
@@ -76,22 +77,26 @@ class GUI():
         """
         if event == cv2.EVENT_LBUTTONDOWN:
             print("Left mouse was pressed")
-            self._drawing = True
-            self._drawing_start_position = (x, y)
-            # The region that is currently drawn is saved in the last place of the list
-            self._rectangles_to_draw.append(Rectangle((x, y), (x + 1, y + 1), self._id_counter))
-            self._id_counter += 1
+            if len(self._rectangles_to_draw) < glob.MAX_NUMBER_OF_TRACKS:
+                self._drawing = True
+                self._drawing_start_position = (x, y)
+                # The region that is currently drawn is saved in the last place of the list
+                self._rectangles_to_draw.append(Rectangle((x, y), (x + 1, y + 1), self._id_counter))
+                self._id_counter += 1
+            else:
+                print("Maximum number of tracks has been reached.")
 
         elif event == cv2.EVENT_LBUTTONUP:
             print("Left mouse was released")
-            self._drawing = False
-            self._drawing_end_position = (x, y)
-            window = cv2.getWindowImageRect(self._window_name)
-            top_left_x = max(min(self._drawing_start_position[0], self._drawing_end_position[0]), 0)
-            top_left_y = max(min(self._drawing_start_position[1], self._drawing_end_position[1]), 0)
-            bottom_right_x = min(max(self._drawing_start_position[0], self._drawing_end_position[0]), window[2] - 1)
-            bottom_right_y = min(max(self._drawing_start_position[1], self._drawing_end_position[1]), window[3] - 1)
-            self._rectangles_to_draw[-1].update_position((top_left_x, top_left_y), (bottom_right_x, bottom_right_y))
+            if self._drawing:
+                self._drawing = False
+                self._drawing_end_position = (x, y)
+                window = cv2.getWindowImageRect(self._window_name)
+                top_left_x = max(min(self._drawing_start_position[0], self._drawing_end_position[0]), 0)
+                top_left_y = max(min(self._drawing_start_position[1], self._drawing_end_position[1]), 0)
+                bottom_right_x = min(max(self._drawing_start_position[0], self._drawing_end_position[0]), window[2] - 1)
+                bottom_right_y = min(max(self._drawing_start_position[1], self._drawing_end_position[1]), window[3] - 1)
+                self._rectangles_to_draw[-1].update_position((top_left_x, top_left_y), (bottom_right_x, bottom_right_y))
 
         elif event == cv2.EVENT_MBUTTONDOWN:
             print("Middle click was pressed")
