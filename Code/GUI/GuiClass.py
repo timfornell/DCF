@@ -1,4 +1,5 @@
 import cv2
+from Track.TrackClass import Track
 
 class GUI():
     def __init__(self):
@@ -48,7 +49,10 @@ class GUI():
         cv2.imshow(self._window_name, self._output)
 
     def close_window(self):
-        pass
+        cv2.destroyAllWindows()
+
+    def window_is_open(self):
+        return cv2.getWindowProperty(self._window_name, cv2.WND_PROP_VISIBLE)
 
     def clear_rectangles(self):
         self._rectangles_to_draw = []
