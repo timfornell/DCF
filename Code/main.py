@@ -21,6 +21,7 @@ def run_dcf(sequence_path):
             if image_available:
                 gui.update_window(image)
                 gui.update_rectangles()
+                tracker.initialize_tracks(gui.get_rectangles())
 
                 key = cv2.waitKey(10) & 0xFF
 

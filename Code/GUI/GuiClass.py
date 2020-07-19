@@ -18,7 +18,12 @@ class GUI():
         cv2.setMouseCallback(self._window_name, self.mouse_callback_function)
 
     def get_rectangles(self):
-        return self._rectangles_to_draw
+        ret_list = self._rectangles_to_draw
+        if self._drawing:
+            # The last rectangle hasn't been finished yet
+            ret_list = ret_list[0:-1]
+        return ret_list
+
 
     def update_rectangle_positions(self, new_positions):
         for obj in new_positions:
