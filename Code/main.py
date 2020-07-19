@@ -11,8 +11,9 @@ def run_dcf(sequence_path):
 
     if sequence_reader.sequence_is_available():
         paused_video = False
+        window_is_open = True
         image_available = sequence_reader.image_is_available()
-        while image_available and gui.window_is_open():
+        while image_available and window_is_open:
             image = sequence_reader.get_current_image()
 
             if not paused_video or image is None:
@@ -24,29 +25,34 @@ def run_dcf(sequence_path):
                 tracker.initialize_tracks(gui.get_rectangles())
 
                 key = cv2.waitKey(10) & 0xFF
+                window_is_open = handle_key_presses(key, gui, sequence_reader) and gui.window_is_open()
 
-                if key == 27: # 27 is the escape key
-                    break
-                if key == 32: # 32 is the space key
-                    if paused_video:
-                        paused_video = False
-                    else:
-                        paused_video = True
-                elif key == ord("p"):
-                    key = cv2.waitKey(0)
-                elif key == ord("z"):
-                    sequence_reader.jump_back_one_frame()
-                    gui.update_window(sequence_reader.get_current_image())
-                elif key == ord("x"):
-                    sequence_reader.jump_forward_one_frame()
-                    gui.update_window(sequence_reader.get_current_image())
-                elif key == ord("b"):
-                    gui.clear_rectangles()
-
-            # tracker.run_translation_tracker(sequence_reader.get_new_image())
+            tracker.run_translation_tracker(image)
 
         gui.close_window()
 
+
+def handle_key_presses(key, gui, sequence_reader):
+    ret_val = True
+    if key == 27: # 27 is the escape key
+        ret_val = False
+    if key == 32: # 32 is the space key
+        if paused_video:
+            paused_video = False
+        else:
+            paused_video = True
+    elif key == ord("p"):
+        key = cv2.waitKey(0)
+    elif key == ord("z"):
+        sequence_reader.jump_back_one_frame()
+        gui.update_window(sequence_reader.get_current_image())
+    elif key == ord("x"):
+        sequence_reader.jump_forward_one_frame()
+        gui.update_window(sequence_reader.get_current_image())
+    elif key == ord("b"):
+        gui.clear_rectangles()
+
+    return ret_val
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
