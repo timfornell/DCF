@@ -7,6 +7,7 @@ class SequenceReaderClass():
         self._image_is_available = False
         self._max_frame_nr = 0
         self._current_image = None
+        self._video = None
         sequence_path = Path(sequence_path)
         if sequence_path.exists():
             self._sequence_is_available = True
@@ -19,7 +20,7 @@ class SequenceReaderClass():
 
     def get_new_image(self):
         return_image = None
-        if self._video.isOpened():
+        if not self._video is None and self._video.isOpened():
             self._image_is_available, self._current_image = self._video.read()
             return_image = self._current_image
             print("Current frame: {}".format(self._video.get(cv2.CAP_PROP_POS_FRAMES)))
@@ -40,5 +41,7 @@ class SequenceReaderClass():
 
     def jump_forward_one_frame(self):
         current_frame_nr = self._video.get(cv2.CAP_PROP_POS_FRAMES)
-        self._video.set(cv2.CAP_PROP_POS_FRAMES, current_frame_nr + 1)
         self.get_new_image()
+
+    def get_current_frame_number(self):
+        return self._video.get(cv2.CAP_PROP_POS_FRAMES)
