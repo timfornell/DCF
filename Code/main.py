@@ -12,8 +12,8 @@ def run_dcf(sequence_path):
     if sequence_reader.sequence_is_available():
         # tracker.initialize_tracks(gui.get_track_ROIs())
         paused_video = False
-        while sequence_reader.image_is_available():
-            image_available = True
+        image_available = sequence_reader.image_is_available()
+        while image_available:
             image = sequence_reader.get_current_image()
 
             if not paused_video or image is None:
@@ -21,12 +21,9 @@ def run_dcf(sequence_path):
 
             if image_available:
                 gui.update_window(image)
+                gui.update_rectangles()
 
-                key = None
-                if not paused_video:
-                    key = cv2.waitKey(10) & 0xFF
-                else:
-                    key = cv2.waitKey(0) & 0xFF
+                key = cv2.waitKey(10) & 0xFF
 
                 if key == 27: # 27 is the escape key
                     break
@@ -38,13 +35,13 @@ def run_dcf(sequence_path):
                 elif key == ord("p"):
                     key = cv2.waitKey(0)
                 elif key == ord("z"):
-                    while cv2.waitKey(0) & 0xFF == ord("z"):
-                        sequence_reader.jump_back_one_frame()
-                        gui.update_window(sequence_reader.get_current_image())
+                    sequence_reader.jump_back_one_frame()
+                    gui.update_window(sequence_reader.get_current_image())
                 elif key == ord("x"):
-                    while cv2.waitKey(0) & 0xFF == ord("x"):
-                        sequence_reader.jump_forward_one_frame()
-                        gui.update_window(sequence_reader.get_current_image())
+                    sequence_reader.jump_forward_one_frame()
+                    gui.update_window(sequence_reader.get_current_image())
+                elif key == ord("b"):
+                    gui.clear_rectangles()
 
             # tracker.run_translation_tracker(sequence_reader.get_new_image())
 
