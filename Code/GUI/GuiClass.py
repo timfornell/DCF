@@ -11,11 +11,12 @@ class GUI():
         self._rectangle_color = (255, 0, 0)
         self._rectangle_thickness = 2
         self._rectangle_alpha = 0.5
+        self._id_counter = 1
         cv2.namedWindow(self._window_name)
         cv2.setMouseCallback(self._window_name, self.mouse_callback_function)
 
     def get_track_ROIs(self):
-        pass
+        return self._rectangles_to_draw
 
     def update_window(self, image):
         """ This function takes an image that it will display and save a copy of. """
@@ -68,7 +69,8 @@ class GUI():
             self._drawing = True
             self._drawing_start_position = (x, y)
             # The region that is currently drawn is saved in the last place of the list
-            self._rectangles_to_draw.append(Rectangle((x, y), (x + 1, y + 1)))
+            self._rectangles_to_draw.append(Rectangle((x, y), (x + 1, y + 1), self._id_counter))
+            self._id_counter += 1
 
         elif event == cv2.EVENT_LBUTTONUP:
             print("Left mouse was released")
@@ -79,7 +81,7 @@ class GUI():
             top_left_y = max(min(self._drawing_start_position[1], self._drawing_end_position[1]), 0)
             bottom_right_x = min(max(self._drawing_start_position[0], self._drawing_end_position[0]), window[2] - 1)
             bottom_right_y = min(max(self._drawing_start_position[1], self._drawing_end_position[1]), window[3] - 1)
-            self._rectangles_to_draw[-1] = Rectangle((top_left_x, top_left_y), (bottom_right_x, bottom_right_y))
+            self._rectangles_to_draw[-1].update_position((top_left_x, top_left_y), (bottom_right_x, bottom_right_y))
 
         elif event == cv2.EVENT_MBUTTONDOWN:
             print("Middle click was pressed")
@@ -92,10 +94,15 @@ class GUI():
             top_left_y = max(min(self._drawing_start_position[1], y), 0)
             bottom_right_x = min(max(self._drawing_start_position[0], x), window[2] - 1)
             bottom_right_y = min(max(self._drawing_start_position[1], y), window[3] - 1)
-            self._rectangles_to_draw[-1] = Rectangle((top_left_x, top_left_y), (bottom_right_x, bottom_right_y))
+            self._rectangles_to_draw[-1].update_position((top_left_x, top_left_y), (bottom_right_x, bottom_right_y))
 
 
 class Rectangle():
-    def __init__(self, start_point, end_point):
+    def __init__(self, start_point, end_point, id):
+        self.start_point = start_point
+        self.end_point = end_point
+        self.id = id
+
+    def update_position(self, start_point, end_point):
         self.start_point = start_point
         self.end_point = end_point
