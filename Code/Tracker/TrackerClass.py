@@ -6,9 +6,6 @@ class Tracker():
     def __init__(self):
         self._tracks = []
 
-    def get_tracks(self):
-        return self._tracks
-
     def initialize_tracks(self, list_of_track_rois):
         """
         The ROIs from the GUI come as a list where each object contains (top_left_x, top_left_y),
@@ -38,13 +35,13 @@ class Tracker():
         The first frame a track exists is a bit special since the filter is trained. It is trained be perbutating the
         cropped image X (tunable) amount of times.
         """
-        for track in self.get_tracks():
+        for track in self._tracks:
             # Get the image patch from original image
             track.crop_image_to_track_ROI(current_image)
             # Preprocess image patch to prepare for DCF tracker
             track.pre_process_cropped_image()
 
-            if track._is_initialised:
+            if track._is_initialized:
                 # Correlate image with filter
                 track.calculate_correlation()
                 # Find location of maximum correlation and if clear enough, move track ROI

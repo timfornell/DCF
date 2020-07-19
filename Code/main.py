@@ -43,7 +43,7 @@ def run_dcf(sequence_path):
                 elif key == ord("b"):
                     gui.clear_rectangles()
 
-            # tracker.run_translation_tracker(sequence_reader.get_new_image())
+            tracker.run_translation_tracker(image)
 
         gui.close_window()
 
